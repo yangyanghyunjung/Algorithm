@@ -1,15 +1,17 @@
 package InflearnLecture;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Duplicate {
 	public static String solution(int n, int[] arr) {
+		Set<Integer> set = new HashSet<>();
 		for(int i = 0; i < n; ++i) {
-			for(int j = 0; j < i; ++j) {
-				if(arr[i] == arr[j]) {
-					return "D";
-				}
+			if(set.contains(arr[i])) {
+				return "D";
 			}
+			set.add(arr[i]);
 		}
 		return "U";
 	}
