@@ -7,18 +7,18 @@ public class LRU {
 	public static int[] solution(int size, int[] arr) {
 		int[] result = new int[size];
 		for(int i = 0; i < arr.length ; ++i) {
-			int idx = size - 2;
+			int idx = size - 1;
 			for(int j = 0; j < size; ++j) {
 				if(result[j] == 0) {
 					break;
 				}
 				if(result[j] == arr[i]) {
-					idx = j - 1;
+					idx = j;
 					break;
 				}
 			}
-			while(idx >= 0) {
-				result[idx + 1] = result[idx];
+			while(idx > 0) {
+				result[idx] = result[idx - 1];
 				idx--;
 			}
 			result[0] = arr[i];
