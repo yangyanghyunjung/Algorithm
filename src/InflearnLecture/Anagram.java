@@ -5,18 +5,15 @@ import java.util.Scanner;
 
 public class Anagram {
 	public String solution(char[] arr1, char[] arr2) {
-		int[] alphabet = new int[128]; // ASCII ÀüÃ¼
-		
+		HashMap<Character, Integer> map = new HashMap<>();
 		for (char c : arr1) {
-			alphabet[c]++;
+			map.put(c, map.getOrDefault(c, 0) + 1);
 		}
 		for (char c : arr2) {
-			alphabet[c]--;
-		}
-		for (int i : alphabet) {
-			if(i != 0) {
+			if(!map.containsKey(c) || map.getOrDefault(c, 0) == 0) {
 				return "NO";
 			}
+			map.put(c, map.get(c) - 1);
 		}
 		
 		return "YES";
