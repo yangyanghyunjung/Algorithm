@@ -1,28 +1,30 @@
-package InflearnLecture;
+package InflearnLecture;          
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class LRU {
 
-	public static List<Integer> solution(int size, int[] arr) {
-		List<Integer> list = new ArrayList<>();
-		for(int i = 0; i < arr.length; ++i) {
-			if(list.contains(arr[i])) {
-				// chache hit
-				list.remove(list.indexOf(arr[i]));
-				list.add(arr[i]);
-			} else {
-				// chache miss
-				list.add(arr[i]);
-				if(list.size() > size) {
-					list.remove(0);
+	public static int[] solution(int size, int[] arr) {
+		int[] result = new int[size];
+		for(int i = 0; i < arr.length ; ++i) {
+			int idx = size - 2;
+			for(int j = 0; j < size; ++j) {
+				if(result[j] == 0) {
+					break;
+				}
+				if(result[j] == arr[i]) {
+					idx = j - 1;
+					break;
 				}
 			}
+			while(idx >= 0) {
+				result[idx + 1] = result[idx];
+				idx--;
+			}
+			result[0] = arr[i];
 		}
 		
-		return list;
+		return result;
 	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -32,9 +34,8 @@ public class LRU {
 		for(int i = 0; i < n; ++i) {
 			arr[i] = sc.nextInt();
 		}
-		List<Integer> list = solution(size, arr);
-		for(int i = size - 1; i >= 0; --i) {
-			System.out.printf("%d ", list.get(i));
+		for(int i : solution(size, arr)) {
+			System.out.printf("%d ", i);
 		}
 	}
 
