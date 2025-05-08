@@ -1,42 +1,41 @@
 package InflearnLecture;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
-public class CoordinateSort {
-	public static int[][] solution(int N, int[][] arr){
-		for(int i = 0; i < N; i++) {
-			int minIdx = i;
-			for(int j = i + 1; j < N; j++) {
-				if(arr[minIdx][0] > arr[j][0]) {
-					minIdx = j;
-				} else if(arr[minIdx][0] == arr[j][0]) {
-					if(arr[minIdx][1] > arr[j][1]) {
-						minIdx = j;
-					}
-				}
-			}
-			if(minIdx != i) {
-				int[] tmp = arr[i]; 
-				arr[i] = arr[minIdx];
-				arr[minIdx] = tmp;
-			}
-		}
-		return arr;
+class Point implements Comparable<Point>{
+	int x, y;
+	
+	Point(int x, int y){
+		this.x = x;
+		this.y = y;
 	}
 	
+	@Override
+	public int compareTo(Point o){
+		if(this.x == o.x) {
+			return this.y - o.y;
+		}
+		return this.x - o.x;
+	}
+}
+
+
+public class CoordinateSort {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int N = sc.nextInt();
-		int[][] arr = new int[N][2];
+		Point[] point = new Point[N];
+		
 		for (int i = 0; i < N; ++i) {
-			for (int j = 0; j < 2; ++j) {
-				arr[i][j] = sc.nextInt();
-			}
+			int x = sc.nextInt();
+			int y = sc.nextInt();
+			point[i] = new Point(x, y);
 		}
-		int[][] result = solution(N, arr);
+		Arrays.sort(point);
+		
 		for (int i = 0; i < N; ++i) {
-			System.out.printf("%d %d",result[i][0], result[i][1]); 
-			System.out.println();
+			System.out.printf("%d %d\n",point[i].x, point[i].y); 
 		}
 		
 	}
