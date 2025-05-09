@@ -12,19 +12,18 @@ public class MusicVideo {
 		while(lt <= rt) {
 			int mid = (lt + rt) / 2;
 			// 검증 (mid <= sum) 인가?
-			int cnt = 0;
+			int cnt = 1; // 무조건 한개는 필요하니까
 			int sum = 0;
 			
 			for(int i = 0; i < N; ++i) {
 				sum += arr[i];
 				if(sum > mid) {
-					cnt++;
-					i--;
-					sum = 0;
+					cnt++; // 이제부터 새 앨범이 필요
+					sum = arr[i]; // sum = 0; i-- 할 필요 없음
 				}
 				
 			}
-			if(cnt < M) {
+			if(cnt <= M) {
 				result = mid;
 				rt = mid - 1;
 			} else {
