@@ -4,6 +4,19 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Magugan {
+	public static int getAcceptableHorsesCnt(int minDistance, int[] arr) {
+		int cnt = 1;
+		int ep = arr[0];
+		for(int i = 1; i < arr.length; ++i) {
+			int dt = arr[i] - ep;
+			if(dt >= minDistance) {
+				cnt++;
+				ep = arr[i];
+			}
+		}
+		return cnt;
+	}
+	
 	public static int solution(int N, int C, int[]arr) {
 		int result = 0;
 		Arrays.sort(arr);
@@ -12,17 +25,8 @@ public class Magugan {
 		int rt = arr[N - 1] - arr[0];
 		
 		while(lt <= rt) {
-			int cnt = 1;
 			int mid = (lt + rt) / 2;
-			int ep = arr[0];
-			for(int i = 1; i < N; ++i) {
-				int dt = arr[i] - ep;
-				if(dt >= mid) {
-					cnt++;
-					ep = arr[i];
-				}
-			}
-			if(cnt >= C) {
+			if(getAcceptableHorsesCnt(mid, arr) >= C) {
 				lt = mid + 1;
 				result = mid;
 			} else {
