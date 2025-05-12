@@ -5,11 +5,12 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class BFSCalf {
-	static int[] ch = new int[10001];
+	int[] dir = {1, -1, 5}; // 배열로 만들어 for문 돌릴수있게
+	int[] ch = new int[10001];
+	Queue<Integer> Q = new LinkedList<>();
 	
 	public int BFS(int root, int target) {
 		int level = 0;
-		Queue<Integer> Q = new LinkedList<>();
 		Q.offer(root);
 		ch[root] = 1;
 		
@@ -17,20 +18,14 @@ public class BFSCalf {
 			int size = Q.size();
 			for(int i = 0; i < size; ++i) {
 				int curr = Q.poll();
-				if(curr == target) {
-					return level;
-				}
-				
-				if(curr > target) {
-					Q.offer(curr - 1);
-				} else {
-					if(ch[curr + 1] == 0) {
-						Q.offer(curr + 1);
-						ch[curr + 1] = 1;
+				for(int j = 0; j < 3; ++j) {
+					int next = curr + dir[j];
+					if(next == target) { // Queue에 넣기 전에 반환
+						return level + 1;
 					}
-					if(ch[curr + 5] == 0) {
-						Q.offer(curr + 5);
-						ch[curr + 5] = 1;
+					if(ch[next] == 0 && next >=1 && next <= 10000) {
+						ch[next] = 1;
+						Q.offer(next);
 					}
 				}
 			}
