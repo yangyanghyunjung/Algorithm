@@ -15,12 +15,11 @@ public class DFSFindPath_AdjacencyList {
 			return;
 		}
 		
-		for(int i = 0; i < graph.get(V).size(); ++i) {
-			int nt = graph.get(V).get(i);
-			if(ch[nt] == 0) {
-				ch[nt] = 1;
-				DFS(nt);
-				ch[nt] = 0;
+		for(int nv : graph.get(V)) {	// foreach
+			if(ch[nv] == 0) {
+				ch[nv] = 1;
+				DFS(nv);
+				ch[nv] = 0;
 			}
 		}
 	}
@@ -35,13 +34,13 @@ public class DFSFindPath_AdjacencyList {
 		ch = new int[N + 1];
 		
 		for(int i = 0; i <= N; ++i) {
-			graph.add(new ArrayList<>());
+			graph.add(new ArrayList<>());	// 객체 생성 필수!!
 		}
 		
 		for(int i = 0; i < M; ++i) {
 			int a = sc.nextInt();
 			int b = sc.nextInt();
-			graph.get(a).add(b);
+			graph.get(a).add(b);			// get().add()
 		}
 		ch[1] = 1;
 		T.DFS(1);
