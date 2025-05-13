@@ -9,13 +9,14 @@ public class BadugiRide {
 	static int max;
 	
 	public void DFS(int L, int sum) {
-		if(L == N) {
-			if(sum <= C && sum > max) {
-				max = sum;
-			}
+		if(sum > C) {
 			return;
 		}
-		if(sum > C) {
+		
+		if(L == N) {
+			if(sum > max) {
+				max = sum;
+			}
 			return;
 		}
 		DFS(L + 1, sum + baduk[L]);
