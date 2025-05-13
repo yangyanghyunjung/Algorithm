@@ -8,31 +8,28 @@ import java.util.Scanner;
 public class BFSGraphShortestPath {
 	static ArrayList<ArrayList<Integer>> graph;
 	static int N;
+	static boolean[] visited;
+	static int[] dist;
 	
 	
-	public int[] BFS(int root) {
-		int[] level = new int[N + 1];
+	public void BFS(int root) {
 		Queue<Integer> Q = new LinkedList<>();
 		Q.offer(root);
-		int L = 0;
 		
 		while(!Q.isEmpty()) {
-			L++;
 			int size = Q.size();
 			for(int i = 0; i < size; ++i) {
 				int cur = Q.poll();
 				
 				for(int next : graph.get(cur)) {
-					if(level[next] == 0) {
+					if(visited[next] == false) {
+						visited[next] = true;
+						dist[next] = dist[cur] + 1;	// level
 						Q.offer(next);
-						level[next] = L;
 					}
 				}
 			}
 		}
-		
-		
-		return level;
 	}
 	public static void main(String[] args) {
 		BFSGraphShortestPath T = new BFSGraphShortestPath();
@@ -50,10 +47,12 @@ public class BFSGraphShortestPath {
 			
 			graph.get(a).add(b);
 		}
+		visited = new boolean[N + 1];
+		dist = new int[N + 1];
 		
-		int[] result = T.BFS(1);
-		for(int i = 2; i < result.length; ++i) {
-			System.out.printf("%d : %d\n", i, result[i]);
+		T.BFS(1);
+		for(int i = 2; i < dist.length; ++i) {
+			System.out.printf("%d : %d\n", i, dist[i]);
 		}
 	}
 
