@@ -10,7 +10,7 @@ public class DFSPredictPermutation {
 	static int[] combinationArr;
 	static int[][] ch_combi;
 	
-	static int[] ch_permu;
+	static boolean[] ch_permu;
 	static int[] result;
 	
 	public static int DfsGetCombination(int n, int r) {
@@ -23,14 +23,10 @@ public class DFSPredictPermutation {
 		return ch_combi[n][r] = DfsGetCombination(n-1, r-1) + DfsGetCombination(n-1, r);
 	}
 	
-	public static void DfsgetPermutation(int L) {
+	public static void DfsgetPermutation(int L, int sum) {
 		if(bFlag) return;
 		
 		if(L == n) {
-			int sum = 0;
-			for(int i = 0; i < n; ++i) {
-				sum += (result[i] * combinationArr[i]);
-			}
 			if(F == sum) {
 				for(int i = 0; i < n; ++i) {
 					System.out.print(result[i] + " ");
@@ -41,11 +37,11 @@ public class DFSPredictPermutation {
 		}
 		
 		for(int i = 1; i <= n; ++i) {
-			if(ch_permu[i] == 0) {
-				ch_permu[i] = 1; 
+			if(ch_permu[i] == false) {
+				ch_permu[i] = true; 
 				result[L] = i; 
-				DfsgetPermutation(L + 1);
-				ch_permu[i] = 0; 
+				DfsgetPermutation(L + 1, sum + result[L] * combinationArr[L]);
+				ch_permu[i] = false; 
 			}
 		}
 	}
@@ -56,7 +52,7 @@ public class DFSPredictPermutation {
 		n = sc.nextInt();
 		F = sc.nextInt();
 		combinationArr = new int[n];
-		ch_permu = new int[n + 1];
+		ch_permu = new boolean[n + 1];
 		result = new int[n];
 		
 		for(int i = 0; i < n; ++i) {
@@ -67,7 +63,7 @@ public class DFSPredictPermutation {
 				combinationArr[i] = DfsGetCombination(n - 1, i);
 			}
 		}
-		DfsgetPermutation(0);
+		DfsgetPermutation(0, 0);
 	}
 
 }
