@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class BFSTomato {
 	static int N;
 	static int M;
-	static int result;
+	static int result = 0;
 	static int[][] tomatos;
 	static int[][] dist;
 	
@@ -56,25 +56,21 @@ public class BFSTomato {
 			}
 		}
 		
-		if(Q.isEmpty()) {
-			System.out.println(0);
+		BFS();
+		
+		boolean bRiped = true;
+		for(int i = 0; i < N; ++i) {
+			for(int j = 0; j < M; ++j) {
+				int t = tomatos[i][j];
+				if(t == 0) {
+					bRiped = false;
+				} 
+			}
+		}
+		if(bRiped) {
+			System.out.println(result);
 		} else {
-			BFS();
-			
-			boolean bRiped = true;
-			for(int i = 0; i < N; ++i) {
-				for(int j = 0; j < M; ++j) {
-					int t = tomatos[i][j];
-					if(t == 0) {
-						bRiped = false;
-					} 
-				}
-			}
-			if(bRiped) {
-				System.out.println(result);
-			} else {
-				System.out.println(-1);
-			}
+			System.out.println(-1);
 		}
 	}
 
