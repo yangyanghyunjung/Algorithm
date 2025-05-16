@@ -21,7 +21,8 @@ public class BFSMazeNavigation {
 		
 		while(!Q.isEmpty()) {
 			int[] cur = Q.poll();
-			board[cur[0]][cur[1]] = 1;
+			int cx = cur[0], cy = cur[1];
+			board[cx][cy] = 1;
 			
 			for(int j = 0; j < 4; ++j) {
 				int nx = cur[0] + dx[j]; 
@@ -30,7 +31,7 @@ public class BFSMazeNavigation {
 				if(nx >=1 && nx <= 7 && ny >=1 && ny <= 7 && board[nx][ny] == 0) {
 					board[nx][ny] = 1;
 					Q.offer(new int[] {nx, ny});
-					dis[nx][ny] = dis[cur[0]][cur[1]] + 1;
+					dis[nx][ny] = dis[cx][cy] + 1;
 					
 				}
 			}
