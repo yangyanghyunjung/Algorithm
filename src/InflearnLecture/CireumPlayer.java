@@ -1,14 +1,19 @@
 package InflearnLecture;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
-class Person{
+class Person implements Comparable<Person>{
 	int ht, wt;
 	
 	Person(int ht, int wt){
 		this.ht = ht;
 		this.wt = wt;
+	}
+	@Override
+	public int compareTo(Person o) {
+		return o.ht - ht; // 오름차순
 	}
 }
 
@@ -17,7 +22,8 @@ public class CireumPlayer {
 
 	public static int solution(ArrayList<Person> list, int N) {
 		int result = 0;
-		list.sort((a, b) -> Integer.compare(b.ht, a.ht));
+//		list.sort((a, b) -> Integer.compare(b.ht, a.ht)); // Comparator
+		Collections.sort(list);
 
 		int max = 0;
 		for(int i = 0; i < N; ++i) {
