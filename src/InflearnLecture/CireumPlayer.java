@@ -16,20 +16,14 @@ class Person{
 public class CireumPlayer {
 
 	public static int solution(ArrayList<Person> list, int N) {
-		int result = N;
+		int result = 0;
 		list.sort((a, b) -> Integer.compare(b.ht, a.ht));
 
-		int i = 0;
-		while(true) {
-			if(list.get(i).wt > list.get(i + 1).wt) {
-				list.remove(i + 1);
-				result--;
-			} else {
-				i++;
-			}
-			
-			if(i == list.size() - 1) {
-				break;
+		int max = 0;
+		for(int i = 0; i < N; ++i) {
+			if(list.get(i).wt > max) {
+				result++;
+				max = list.get(i).wt; 
 			}
 		}
 		
