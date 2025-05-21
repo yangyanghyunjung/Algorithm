@@ -11,12 +11,13 @@ public class S1_안전영역 {
 	
 	
 	public static void DFS(int r, int c, boolean[][] ch) {
+		ch[r][c] = true;
+		
 		for(int i = 0; i < 4; ++i) {
 			int nr = r + dr[i];
 			int nc = c + dc[i];
 			
 			if(nr >= 0 && nr < N && nc >= 0 && nc < N && map[nr][nc] > rain && !ch[nr][nc]) {
-				ch[nr][nc] = true;
 				DFS(nr, nc, ch);
 			}
 		}
@@ -47,7 +48,6 @@ public class S1_안전영역 {
 				for(int k = 0; k < N; ++k) {
 					if(map[j][k] > i && !ch[j][k]) {
 						safeCnt++;
-						ch[j][k] = true;
 						DFS(j, k, ch);
 					}
 				}
