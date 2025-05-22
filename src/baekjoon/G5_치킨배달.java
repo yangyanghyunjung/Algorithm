@@ -1,8 +1,6 @@
 package baekjoon;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 class chi_Dot{
@@ -15,62 +13,40 @@ class chi_Dot{
 }
 
 public class G5_치킨배달 {
-	static int[] dr = {-1, 0, 1, 0};
-	static int[] dc = {0, 1, 0, -1};
 	static int N;
-	static int closeStroeCnt;
+	static int M;
 	
 	static int[][] map;
 	static ArrayList<chi_Dot> storeList;
+	static ArrayList<chi_Dot> houseList;
 	static int minDist = Integer.MAX_VALUE;
-	static int minLevel = Integer.MAX_VALUE;
 	
 	
-	public static int BfsGetMinDist(boolean[][] ch_dist, chi_Dot d) {
-		int result = 0;
-		int L = 0;
-		Queue<chi_Dot> Q = new LinkedList<>();
-		Q.offer(d);
+	public static int getMinDist(ArrayList<chi_Dot> selected) {
+		int sum = 0;
 		
-		while(!Q.isEmpty()) {
-			chi_Dot cur = Q.poll();
-			int cr = cur.r;
-			int cc = cur.c;
+		for(chi_Dot h : houseList) {
+			int hr = h.r;
+			int hc = h.c;
 			
-			if(map[cr][cc] == 2) {
-				return Math.abs(d.r - cr) + Math.abs(d.c - cc);
-			}
-			
-			for(int i = 0; i < 4; ++i) {
-				int nr = cr + dr[i];
-				int nc = cc + dc[i];
+			int min = Integer.MAX_VALUE;
+			for(chi_Dot s : selected) {
+				int sr = s.r;
+				int sc = s.c;
 				
-				if(nr >=0 && nr < N && nc >=0 && nc < N && !ch_dist[nr][nc]) {
-					ch_dist[nr][nc] = true;
-					Q.offer(new chi_Dot(nr, nc));
-				}
+				min = Math.min(min, (Math.abs(hr - sr) + Math.abs(hc - sc)));
 			}
+			sum += min;
 		}
 		
-		
-		return result;
+		return sum;
 	}
-	public static void DfsFindStore(int L, int s) {
-		if(L == closeStroeCnt) {
-			// Bfs 호출
+	public static void DfsFindStore(int L, int s, ArrayList<chi_Dot> selected) {
+		if(L == M) {
 			int sum = 0;
-			for(int i = 0; i < N; ++i) {
-				for(int j = 0; j < N; ++j) {
-					if(map[i][j] == 1) {
-						boolean[][] ch_dist = new boolean[N][N];
-						ch_dist[i][j] = true;
-						sum += BfsGetMinDist(ch_dist, new chi_Dot(i, j));
-						
-						if(sum > minDist) break;
-					}
-				}
 				
-			}
+			sum = getMinDist(selected);
+				
 			minDist = Math.min(minDist, sum);
 			return;
 		}
@@ -80,32 +56,33 @@ public class G5_치킨배달 {
 			int r = d.r;
 			int c = d.c;
 			
-			map[r][c] = 0; //  폐업
-			DfsFindStore(L + 1, i + 1);
-			map[r][c] = 2; //  복귀
+			selected.add(new chi_Dot(r, c));
+			DfsFindStore(L + 1, i + 1, selected);
+			selected.remove(selected.size() - 1);
 		}
 		
 	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		N = sc.nextInt();
-		int M = sc.nextInt();
+		M = sc.nextInt();
 		
 		map = new int[N][N];
 		
 		
 		
 		storeList = new ArrayList<>();
+		houseList = new ArrayList<>();
 		for(int i = 0; i < N; ++i) {
 			for(int j = 0; j < N; ++j) {
 				int val = sc.nextInt();
 				map[i][j] = val;
 				if(val == 2) storeList.add(new chi_Dot(i, j));
+				else if(val == 1) houseList.add(new chi_Dot(i, j));
 			}
 		}
-		closeStroeCnt = storeList.size() - M;
 		
-		DfsFindStore(0, 0);
+		DfsFindStore(0, 0, new ArrayList<chi_Dot>());
 		
 		System.out.println(minDist);
 		
